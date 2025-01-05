@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.alimsuma.movieexpert.core"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -55,8 +55,8 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
+    api(libs.androidx.core.ktx)
+    api(libs.androidx.appcompat)
     api(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -72,26 +72,30 @@ dependencies {
     ksp(libs.hilt.android.compiler)
 
     //Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor)
+    api(libs.retrofit)
+    api(libs.converter.gson)
+    api(libs.logging.interceptor)
 
     //Glide
     api(libs.glide)
 
     //Coroutines
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.android)
+    api(libs.kotlinx.coroutines.core)
+    api(libs.kotlinx.coroutines.android)
 
     //Lifecycle
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
+    api(libs.androidx.lifecycle.viewmodel.ktx)
+    api(libs.androidx.lifecycle.livedata.ktx)
 
     //Room
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
 
+    //Encryption Database
+    implementation(libs.android.database.sqlcipher)
+    implementation(libs.androidx.sqlite.ktx)
+
     //DataStore
-    implementation(libs.androidx.datastore.preferences)
+    api(libs.androidx.datastore.preferences)
 }

@@ -20,7 +20,7 @@ class MovieRepository @Inject constructor(
     override fun getAllMovie(): Flow<Resource<List<Movie>>> =
         object : NetworkBoundResource<List<Movie>, List<MovieResponse>>() {
             override fun loadFromDB(): Flow<List<Movie>> {
-                return localDataSource.getAllTourism().map {
+                return localDataSource.getAllMovies().map {
                     DataMapper.mapEntitiesToDomain(it)
                 }
             }
@@ -38,14 +38,14 @@ class MovieRepository @Inject constructor(
         }.asFlow()
 
     override fun getFavoriteMovie(): Flow<List<Movie>> {
-        return localDataSource.getFavoriteTourism().map {
+        return localDataSource.getFavoriteMovies().map {
             DataMapper.mapEntitiesToDomain(it)
         }
     }
 
     override fun setFavoriteMovie(movie: Movie, state: Boolean) {
-        val tourismEntity = DataMapper.mapDomainToEntity(movie)
-        appExecutors.diskIO().execute { localDataSource.setFavoriteTourism(tourismEntity, state) }
+        val moviesEntity = DataMapper.mapDomainToEntity(movie)
+        appExecutors.diskIO().execute { localDataSource.setFavoriteMovies(moviesEntity, state) }
     }
 
     override fun searchMovies(query: String): Flow<Resource<List<Movie>>> =

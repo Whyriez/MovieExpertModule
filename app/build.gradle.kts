@@ -27,7 +27,7 @@ android {
         p.load(project.rootProject.file("local.properties").reader())
         val apiToken: String = p.getProperty("API_TOKEN")
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -38,6 +38,11 @@ android {
         }
 
         debug {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             buildConfigField("String", "API_TOKEN", "\"$apiToken\"")
             buildConfigField("String", "BASE_IMAGE", "\"https://image.tmdb.org/t/p/w500/\"")
             buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")

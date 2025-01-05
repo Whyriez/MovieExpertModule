@@ -52,7 +52,7 @@ class DetailMovieActivity : AppCompatActivity() {
             setStatusFavorite(statusFavorite)
             binding.fab.setOnClickListener {
                 statusFavorite = !statusFavorite
-                detailMovieViewModel.setFavoriteTourism(detailMovie, statusFavorite)
+                detailMovieViewModel.setFavoriteMovies(detailMovie, statusFavorite)
                 setStatusFavorite(statusFavorite)
             }
         }

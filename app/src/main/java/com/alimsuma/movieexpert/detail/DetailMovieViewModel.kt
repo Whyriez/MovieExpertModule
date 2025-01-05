@@ -8,6 +8,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailMovieViewModel @Inject constructor(private val movieUseCase: MovieUseCase) : ViewModel() {
-    fun setFavoriteTourism(movie: Movie, newStatus:Boolean) =
+    fun setFavoriteMovies(movie: Movie, newStatus:Boolean) =
         movieUseCase.setFavoriteMovie(movie, newStatus)
 }
