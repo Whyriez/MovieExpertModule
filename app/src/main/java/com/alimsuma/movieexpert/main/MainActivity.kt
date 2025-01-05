@@ -6,8 +6,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -19,25 +21,29 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
+    private var windowInsetsListener: OnApplyWindowInsetsListener? = null
 
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         applyTheme()
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+        windowInsetsListener = OnApplyWindowInsetsListener { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main, windowInsetsListener)
 
         val navView: BottomNavigationView = binding.navView
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         val navController = navHostFragment.navController
 
         val appBarConfiguration = AppBarConfiguration(
@@ -48,20 +54,33 @@ class MainActivity : AppCompatActivity() {
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        navController.let {
+            setupActionBarWithNavController(it, appBarConfiguration)
+            navView.setupWithNavController(it)
+        }
     }
 
     private fun applyTheme() {
-        val isDarkMode = AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES
-        val colorRes = if (isDarkMode) R.color.primaryColorNight else R.color.primaryColor
-        window.statusBarColor = ContextCompat.getColor(this, colorRes)
-
         mainViewModel.getThemeSetting().observe(this) { isDarkModeActive ->
-            if (isDarkModeActive) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
+            AppCompatDelegate.setDefaultNightMode(
+                if (isDarkModeActive) AppCompatDelegate.MODE_NIGHT_YES
+                else AppCompatDelegate.MODE_NIGHT_NO
+            )
+            updateStatusBarColor(isDarkModeActive)
         }
+    }
+
+    private fun updateStatusBarColor(isDarkModeActive: Boolean) {
+        val colorRes = if (isDarkModeActive) R.color.primaryColorNight else R.color.primaryColor
+        window.statusBarColor = ContextCompat.getColor(this, colorRes)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        windowInsetsListener?.let {
+            ViewCompat.setOnApplyWindowInsetsListener(binding.main, null)
+        }
+        windowInsetsListener = null
+        _binding = null
     }
 }

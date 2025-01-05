@@ -48,4 +48,10 @@ class SettingFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.switchTheme.setOnCheckedChangeListener(null)
+        _binding = null
+    }
+
 }

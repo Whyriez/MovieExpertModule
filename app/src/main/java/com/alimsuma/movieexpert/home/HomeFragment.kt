@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alimsuma.core.core.data.source.Resource
@@ -22,6 +23,9 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    private var searchEditTextListener: TextView.OnEditorActionListener? = null
+    private var tourismAdapter: MovieAdapter? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,22 +40,22 @@ class HomeFragment : Fragment() {
 
         if (activity != null) {
 
-            val tourismAdapter = MovieAdapter()
-            tourismAdapter.onItemClick = { selectedData ->
-                val intent = Intent(activity, DetailMovieActivity::class.java)
-                intent.putExtra(DetailMovieActivity.EXTRA_DATA, selectedData)
-                startActivity(intent)
+            tourismAdapter = MovieAdapter().apply {
+                onItemClick = { selectedData ->
+                    val intent = Intent(requireActivity(), DetailMovieActivity::class.java)
+                    intent.putExtra(DetailMovieActivity.EXTRA_DATA, selectedData)
+                    startActivity(intent)
+                }
             }
 
             homeViewModel.movies.observe(viewLifecycleOwner) { movie ->
                 if (movie != null) {
-                    Log.e("asas", movie.data.toString())
                     when (movie) {
                         is Resource.Loading -> binding.progressBar.visibility = View.VISIBLE
                         is Resource.Success -> {
                             binding.progressBar.visibility = View.GONE
 
-                            tourismAdapter.submitList(movie.data)
+                            tourismAdapter?.submitList(movie.data)
                         }
                         is Resource.Error -> {
                             binding.progressBar.visibility = View.GONE
@@ -63,8 +67,7 @@ class HomeFragment : Fragment() {
                 }
             }
 
-            binding.search.searchView.setupWithSearchBar(binding.search.searchBar)
-            binding.search.searchView.editText.setOnEditorActionListener { _, _, _ ->
+            searchEditTextListener = TextView.OnEditorActionListener { _, _, _ ->
                 val query = binding.search.searchView.text
                 binding.search.searchBar.setText(query)
                 homeViewModel.setSearchQuery(query.toString())
@@ -72,12 +75,26 @@ class HomeFragment : Fragment() {
                 false
             }
 
+            binding.search.searchView.setupWithSearchBar(binding.search.searchBar)
+            binding.search.searchView.editText.setOnEditorActionListener(searchEditTextListener)
+
             with(binding.rvTourism) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
                 adapter = tourismAdapter
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.rvTourism.adapter = null
+        tourismAdapter?.onItemClick = null
+        tourismAdapter = null
+        binding.search.searchView.editText.setOnEditorActionListener(null)
+        searchEditTextListener = null
+
+        _binding = null
     }
 
 }

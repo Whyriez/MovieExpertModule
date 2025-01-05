@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alimsuma.core.core.ui.MovieAdapter
@@ -18,6 +19,8 @@ class FavoriteFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var favoriteViewModel: FavoriteViewModel
+    private var searchEditTextListener: TextView.OnEditorActionListener? = null
+    private var movieAdapter: MovieAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,27 +46,30 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
-            val movieAdapter = MovieAdapter()
-            movieAdapter.onItemClick = { selectedData ->
-                val intent = Intent(activity, DetailMovieActivity::class.java)
-                intent.putExtra(DetailMovieActivity.EXTRA_DATA, selectedData)
-                startActivity(intent)
+            movieAdapter = MovieAdapter().apply {
+                onItemClick = { selectedData ->
+                    val intent = Intent(requireActivity(), DetailMovieActivity::class.java)
+                    intent.putExtra(DetailMovieActivity.EXTRA_DATA, selectedData)
+                    startActivity(intent)
+                }
             }
 
             favoriteViewModel.favoriteTourism.observe(viewLifecycleOwner) { dataMovie ->
-                movieAdapter.submitList(dataMovie)
+                movieAdapter?.submitList(dataMovie)
                 binding.viewEmpty.root.visibility =
                     if (dataMovie.isNotEmpty()) View.GONE else View.VISIBLE
             }
 
-            binding.search.searchView.setupWithSearchBar(binding.search.searchBar)
-            binding.search.searchView.editText.setOnEditorActionListener { _, _, _ ->
+            searchEditTextListener = TextView.OnEditorActionListener { _, _, _ ->
                 val query = binding.search.searchView.text
                 binding.search.searchBar.setText(query)
                 favoriteViewModel.setSearchQuery(query.toString())
                 binding.search.searchView.hide()
                 false
             }
+
+            binding.search.searchView.setupWithSearchBar(binding.search.searchBar)
+            binding.search.searchView.editText.setOnEditorActionListener(searchEditTextListener)
 
             with(binding.rvMovie) {
                 layoutManager = LinearLayoutManager(context)
@@ -75,6 +81,12 @@ class FavoriteFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.rvMovie.adapter = null
+        movieAdapter?.onItemClick = null
+        movieAdapter = null
+        binding.search.searchView.editText.setOnEditorActionListener(null)
+        searchEditTextListener = null
+
         _binding = null
     }
 }
