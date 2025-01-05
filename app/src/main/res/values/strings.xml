@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Movie Expert</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_favorite">Favorite</string>
     <string name="title_home">Home</string>
     <string name="title_dynamicfeature">Favorite</string>
@@ -9,4 +7,9 @@
 
     <string name="enable_dark_mode">Enable dark mode</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="content_desc_favorite">Favorite</string>
+    <string name="subtitle">Subtitle</string>
+    <string name="search">Search</string>
+    <string name="no_data">No Data</string>
+    <string name="ada_yang_salah">Ada yang Salah</string>
 </resources>
