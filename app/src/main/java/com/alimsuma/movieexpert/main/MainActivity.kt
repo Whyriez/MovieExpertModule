@@ -9,10 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.OnApplyWindowInsetsListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.alimsuma.movieexpert.R
 import com.alimsuma.movieexpert.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,8 +23,12 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private var windowInsetsListener: OnApplyWindowInsetsListener? = null
-
+    private var navController: NavController? = null
+    private var navView: BottomNavigationView? = null
     private val mainViewModel: MainViewModel by viewModels()
+
+    private var onDestinationChangedListener: NavController.OnDestinationChangedListener? = null
+    private var appBarConfiguration: AppBarConfiguration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,23 +44,57 @@ class MainActivity : AppCompatActivity() {
         }
         ViewCompat.setOnApplyWindowInsetsListener(binding.main, windowInsetsListener)
 
-        val navView: BottomNavigationView = binding.navView
+        navView = binding.navView.apply {
+            setOnItemSelectedListener(null)
+        }
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
 
-        val appBarConfiguration = AppBarConfiguration(
+        appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
                 R.id.favorite_nav,
                 R.id.navigation_setting,
             )
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navController.let {
-            setupActionBarWithNavController(it, appBarConfiguration)
-            navView.setupWithNavController(it)
+        navController?.let { controller ->
+            appBarConfiguration?.let { config ->
+                setupActionBarWithNavController(controller, config)
+            }
+            navView?.apply {
+                setOnItemSelectedListener { item ->
+                    controller.navigate(item.itemId)
+                    true
+                }
+            }
+            onDestinationChangedListener = NavController.OnDestinationChangedListener { _, destination, _ ->
+                navView?.menu?.findItem(destination.id)?.isChecked = true
+            }
+            controller.addOnDestinationChangedListener(onDestinationChangedListener!!)
         }
+    }
+
+    private fun clearNavigationReferences() {
+        // Remove navigation listeners
+        navController?.let { controller ->
+            onDestinationChangedListener?.let { listener ->
+                controller.removeOnDestinationChangedListener(listener)
+            }
+        }
+        onDestinationChangedListener = null
+
+        // Clear bottom navigation
+        navView?.apply {
+            setOnItemSelectedListener(null)
+            setOnItemReselectedListener(null)
+            menu.clear()
+        }
+        navView = null
+
+        // Clear nav controller and config
+        navController = null
+        appBarConfiguration = null
     }
 
     private fun applyTheme() {
@@ -76,6 +114,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        clearNavigationReferences()
+
         windowInsetsListener?.let {
             ViewCompat.setOnApplyWindowInsetsListener(binding.main, null)
         }

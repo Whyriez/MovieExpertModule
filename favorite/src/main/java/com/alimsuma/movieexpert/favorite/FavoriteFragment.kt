@@ -89,4 +89,11 @@ class FavoriteFragment : Fragment() {
 
         _binding = null
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isRemoving || requireActivity().isFinishing) {
+            favoriteViewModel.clearResources()
+        }
+    }
 }
