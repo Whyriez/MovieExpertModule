@@ -54,6 +54,7 @@ android {
 }
 
 dependencies {
+    testImplementation(project(":app"))
 
     api(libs.androidx.core.ktx)
     api(libs.androidx.appcompat)
@@ -98,4 +99,10 @@ dependencies {
 
     //DataStore
     api(libs.androidx.datastore.preferences)
+
+    //Test
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
 }
