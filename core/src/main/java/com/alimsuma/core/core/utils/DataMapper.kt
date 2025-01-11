@@ -41,7 +41,6 @@ object DataMapper {
             )
         }
 
-
     fun mapDomainToEntity(input: Movie) = MovieEntity(
         id = input.id,
         adult = false,

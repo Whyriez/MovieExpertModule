@@ -32,7 +32,6 @@ class DatabaseModule {
             .build()
     }
 
-
     @Provides
     fun provideMovieDao(database: MovieDatabase): MovieDao = database.movieDao()
 }

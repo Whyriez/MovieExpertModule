@@ -7,5 +7,4 @@ import com.alimsuma.core.core.data.source.local.entity.MovieEntity
 abstract class MovieDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
-
 }

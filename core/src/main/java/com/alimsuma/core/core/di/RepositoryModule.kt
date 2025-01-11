@@ -13,5 +13,4 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun provideRepository(movieRepository: MovieRepository): IMovieRepository
-
 }
