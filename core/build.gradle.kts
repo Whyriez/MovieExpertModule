@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
+    id("jacoco")
 }
 
 android {
@@ -17,6 +18,14 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
+
+    testOptions{
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+        }
+    }
+
 
     buildTypes {
         val p = Properties()
@@ -34,6 +43,7 @@ android {
         }
 
         debug {
+            enableUnitTestCoverage = true
             buildConfigField("String", "API_TOKEN", "\"$apiToken\"")
             buildConfigField("String", "BASE_IMAGE", "\"https://image.tmdb.org/t/p/w500/\"")
             buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
@@ -105,4 +115,41 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
 }
+
+jacoco{
+    toolVersion = "0.8.11"
+}
+
+tasks.withType<Test> {
+    finalizedBy("jacocoTestReport")
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
+    sourceDirectories.setFrom(files(android.sourceSets["main"].java.srcDirs))
+    classDirectories.setFrom(
+        fileTree(
+            mapOf(
+                "dir" to "${buildDir}/intermediates/javac/debug",
+                "includes" to listOf("**/*.class"),
+                "excludes" to listOf(
+                    "**/R.class",
+                    "**/R$*.class",
+                    "**/BuildConfig.*",
+                    "**/Manifest*.*",
+                    "**/*Test*.*"
+                )
+            )
+        )
+    )
+    executionData.setFrom(files("${buildDir}/jacoco/testDebugUnitTest.exec"))
+}
+

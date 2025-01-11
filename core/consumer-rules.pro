@@ -2,6 +2,10 @@
 -keep,includedescriptorclasses class net.sqlcipher.** { *; }
 -keep,includedescriptorclasses interface net.sqlcipher.** { *; }
 
+-keep class com.alimsuma.core.** { *; }
+-keep class com.alimsuma.core.home.** { *; }
+-keep class com.alimsuma.core.utils.** { *; }
+
 
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard

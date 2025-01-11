@@ -22,13 +22,13 @@ import org.mockito.Mockito.verify
 import org.mockito.Mockito.`when`
 
 @ExperimentalCoroutinesApi
-class HomeViewModelTest() {
+class HomeViewModelTest {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
-    var mainDispatcherRule = MainDispatcherRule()
+    val mainDispatcherRule = MainDispatcherRule()
 
     private lateinit var movieUseCase: MovieUseCase
     private lateinit var homeViewModel: HomeViewModel

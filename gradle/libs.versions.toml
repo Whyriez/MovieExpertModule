@@ -21,7 +21,7 @@ mockitoInline = "5.2.0"
 navigationUiKtx = "2.8.5"
 retrofit = "2.11.0"
 roomRuntime = "2.6.1"
-ksp = "2.0.21-1.0.27"
+ksp = "2.1.0-1.0.29"
 hilt = "2.52"
 sqliteKtx = "2.4.0"
 
