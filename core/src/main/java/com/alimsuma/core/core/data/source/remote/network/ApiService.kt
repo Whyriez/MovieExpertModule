@@ -1,5 +1,4 @@
 package com.alimsuma.core.core.data.source.remote.network
-
 import com.alimsuma.core.core.data.source.remote.response.ListMovieResponse
 import retrofit2.http.GET
 import retrofit2.http.Query

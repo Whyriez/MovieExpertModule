@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import com.alimsuma.movieexpert.databinding.FragmentSettingBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class SettingFragment : Fragment() {
     private var _binding: FragmentSettingBinding? = null
@@ -37,7 +36,6 @@ class SettingFragment : Fragment() {
         binding.switchTheme.setOnCheckedChangeListener { _, isChecked ->
             settingViewModel.toggleTheme(isChecked)
         }
-
     }
 
     private fun updateTheme(isDarkModeActive: Boolean) {
@@ -53,5 +51,4 @@ class SettingFragment : Fragment() {
         binding.switchTheme.setOnCheckedChangeListener(null)
         _binding = null
     }
-
 }

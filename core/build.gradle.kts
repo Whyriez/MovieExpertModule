@@ -19,13 +19,12 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
-    testOptions{
+    testOptions {
         unitTests {
             isIncludeAndroidResources = true
             isReturnDefaultValues = true
         }
     }
-
 
     buildTypes {
         val p = Properties()
@@ -49,10 +48,12 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -73,44 +74,44 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //Navigation
+    // Navigation
     api(libs.androidx.navigation.fragment.ktx)
     api(libs.androidx.navigation.ui.ktx)
     api(libs.androidx.navigation.dynamic.features.fragment)
 
-    //DaggerHilt
+    // DaggerHilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 
-    //Retrofit
+    // Retrofit
     api(libs.retrofit)
     api(libs.converter.gson)
     api(libs.logging.interceptor)
 
-    //Glide
+    // Glide
     api(libs.glide)
 
-    //Coroutines
+    // Coroutines
     api(libs.kotlinx.coroutines.core)
     api(libs.kotlinx.coroutines.android)
 
-    //Lifecycle
+    // Lifecycle
     api(libs.androidx.lifecycle.viewmodel.ktx)
     api(libs.androidx.lifecycle.livedata.ktx)
 
-    //Room
+    // Room
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
 
-    //Encryption Database
+    // Encryption Database
     implementation(libs.android.database.sqlcipher)
     implementation(libs.androidx.sqlite.ktx)
 
-    //DataStore
+    // DataStore
     api(libs.androidx.datastore.preferences)
 
-    //Test
+    // Test
     testImplementation(libs.androidx.core.testing)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.core)
@@ -118,7 +119,7 @@ dependencies {
     testImplementation("androidx.arch.core:core-testing:2.2.0")
 }
 
-jacoco{
+jacoco {
     toolVersion = "0.8.11"
 }
 
@@ -138,7 +139,7 @@ tasks.register<JacocoReport>("jacocoTestReport") {
     classDirectories.setFrom(
         fileTree(
             mapOf(
-                "dir" to "${buildDir}/intermediates/javac/debug",
+                "dir" to "$buildDir/intermediates/javac/debug",
                 "includes" to listOf("**/*.class"),
                 "excludes" to listOf(
                     "**/R.class",
@@ -150,6 +151,6 @@ tasks.register<JacocoReport>("jacocoTestReport") {
             )
         )
     )
-    executionData.setFrom(files("${buildDir}/jacoco/testDebugUnitTest.exec"))
-}
 
+    executionData.setFrom(files("$buildDir/jacoco/testDebugUnitTest.exec"))
+}

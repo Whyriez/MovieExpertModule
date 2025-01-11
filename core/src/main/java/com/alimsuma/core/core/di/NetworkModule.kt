@@ -20,7 +20,7 @@ class NetworkModule {
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         val hostname = "api.themoviedb.org"
-        val loggingInterceptor = if(BuildConfig.DEBUG) {
+        val loggingInterceptor = if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         } else {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
@@ -49,8 +49,6 @@ class NetworkModule {
             .certificatePinner(certificatePinner)
             .build()
     }
-
-
 
     @Provides
     fun provideApiService(client: OkHttpClient): ApiService {

@@ -1,5 +1,4 @@
 package com.alimsuma.movieexpert.favorite
-
 import android.content.Context
 import dagger.hilt.EntryPoints
 

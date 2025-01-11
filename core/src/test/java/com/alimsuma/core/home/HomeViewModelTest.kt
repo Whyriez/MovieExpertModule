@@ -1,5 +1,4 @@
 package com.alimsuma.core.home
-
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.alimsuma.core.MainDispatcherRule

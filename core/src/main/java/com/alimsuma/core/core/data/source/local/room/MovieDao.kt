@@ -1,5 +1,4 @@
 package com.alimsuma.core.core.data.source.local.room
-
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy

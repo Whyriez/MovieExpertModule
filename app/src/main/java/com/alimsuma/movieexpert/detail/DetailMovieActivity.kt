@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailMovieActivity : AppCompatActivity() {
-    private lateinit var  binding: ActivityDetailMovieBinding
+    private lateinit var binding: ActivityDetailMovieBinding
 
     private val detailMovieViewModel: DetailMovieViewModel by viewModels()
 

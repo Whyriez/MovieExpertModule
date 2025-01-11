@@ -1,5 +1,4 @@
 import java.util.Properties
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -65,7 +64,7 @@ android {
 dependencies {
     implementation(project(":core"))
 
-    //DaggerHilt
+    // DaggerHilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 

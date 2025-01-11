@@ -25,7 +25,6 @@ class HomeFragment : Fragment() {
     private var searchEditTextListener: TextView.OnEditorActionListener? = null
     private var tourismAdapter: MovieAdapter? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -95,5 +94,4 @@ class HomeFragment : Fragment() {
 
         _binding = null
     }
-
 }
