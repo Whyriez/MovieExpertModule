@@ -1,11 +1,11 @@
 package com.alimsuma.movieexpert.setting
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.alimsuma.movieexpert.databinding.FragmentSettingBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,10 +17,7 @@ class SettingFragment : Fragment() {
 
     private val settingViewModel: SettingViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSettingBinding.inflate(inflater, container, false)
         return binding.root
     }

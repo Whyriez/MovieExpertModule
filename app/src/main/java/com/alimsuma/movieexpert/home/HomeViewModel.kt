@@ -1,6 +1,5 @@
 package com.alimsuma.movieexpert.home
 
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.alimsuma.core.core.domain.usecase.MovieUseCase
