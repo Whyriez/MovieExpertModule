@@ -2,4 +2,5 @@
 <resources>
     <string name="no_data">No Data</string>
     <string name="ada_yang_salah">Ada yang Salah</string>
+    <string name="search">Search</string>
 </resources>

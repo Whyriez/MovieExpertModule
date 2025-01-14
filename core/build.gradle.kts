@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.alimsuma.movieexpert.core"
+    namespace = "com.alimsuma.core"
     compileSdk = 35
 
     defaultConfig {
@@ -31,11 +31,12 @@ android {
         p.load(project.rootProject.file("local.properties").reader())
         val apiToken: String = p.getProperty("API_TOKEN")
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            consumerProguardFiles
             buildConfigField("String", "API_TOKEN", "\"$apiToken\"")
             buildConfigField("String", "BASE_IMAGE", "\"https://image.tmdb.org/t/p/w500/\"")
             buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
@@ -43,6 +44,12 @@ android {
 
         debug {
             enableUnitTestCoverage = true
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            consumerProguardFiles
             buildConfigField("String", "API_TOKEN", "\"$apiToken\"")
             buildConfigField("String", "BASE_IMAGE", "\"https://image.tmdb.org/t/p/w500/\"")
             buildConfigField("String", "BASE_URL", "\"https://api.themoviedb.org/3/\"")
@@ -116,7 +123,6 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.inline)
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
 }
 
 jacoco {

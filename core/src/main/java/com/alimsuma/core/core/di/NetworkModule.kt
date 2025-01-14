@@ -1,7 +1,7 @@
 package com.alimsuma.core.core.di
 
 import com.alimsuma.core.core.data.source.remote.network.ApiService
-import com.alimsuma.movieexpert.core.BuildConfig
+import com.alimsuma.core.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

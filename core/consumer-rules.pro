@@ -1,11 +1,26 @@
+# Pertahankan class-class spesifik core
+-keep class com.alimsuma.core.core.data.source.MovieRepository { *; }
+-keep class com.alimsuma.core.core.data.source.Resource { *; }
+-keep class com.alimsuma.core.core.data.source.Resource$Error { *; }
+-keep class com.alimsuma.core.core.data.source.Resource$Loading { *; }
+-keep class com.alimsuma.core.core.data.source.Resource$Success { *; }
+-keep class com.alimsuma.core.core.data.source.local.LocalDataSource { *; }
+-keep class com.alimsuma.core.core.data.source.local.preferences.SettingPreferences { *; }
+-keep class com.alimsuma.core.core.data.source.remote.RemoteDataSource { *; }
+-keep class com.alimsuma.core.core.data.source.remote.network.ApiService { *; }
+-keep class com.alimsuma.core.core.di.** { *; }
+-keep class com.alimsuma.core.core.domain.model.Movie { *; }
+-keep class com.alimsuma.core.core.domain.repository.IMovieRepository { *; }
+-keep class com.alimsuma.core.core.domain.usecase.MovieInteractor { *; }
+-keep class com.alimsuma.core.core.domain.usecase.MovieUseCase { *; }
+-keep class com.alimsuma.core.core.ui.MovieAdapter { *; }
+-keep class com.alimsuma.core.core.utils.AppExecutors { *; }
+
 ##---------------Begin: proguard configuration for SQLCipher  ----------
 -keep,includedescriptorclasses class net.sqlcipher.** { *; }
 -keep,includedescriptorclasses interface net.sqlcipher.** { *; }
 
--keep class com.alimsuma.core.** { *; }
--keep class com.alimsuma.core.home.** { *; }
--keep class com.alimsuma.core.utils.** { *; }
-
+-keep class com.alimsuma.core.core.** { *; }
 
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard

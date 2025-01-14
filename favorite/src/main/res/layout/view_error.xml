@@ -10,7 +10,7 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="4dp"
         android:gravity="center"
-        android:text="Ada yang salah"
+        android:text="@string/ada_yang_salah"
         android:textSize="18sp" />
 
 </RelativeLayout>
