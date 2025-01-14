@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.alimsuma.core.BuildConfig
 import com.alimsuma.core.core.domain.model.Movie
 import com.alimsuma.core.databinding.ItemListMovieBinding
+import com.bumptech.glide.Glide
 
 class MovieAdapter : ListAdapter<Movie, MovieAdapter.ListViewHolder>(DIFF_CALLBACK) {
 

@@ -1,5 +1,11 @@
 package com.alimsuma.core.core.di
 
+import com.alimsuma.core.BuildConfig
+import com.alimsuma.core.core.data.source.remote.network.ApiService
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import java.util.concurrent.TimeUnit
 import okhttp3.CertificatePinner
 import okhttp3.Interceptor
@@ -7,12 +13,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import com.alimsuma.core.BuildConfig
-import com.alimsuma.core.core.data.source.remote.network.ApiService
 
 @Module
 @InstallIn(SingletonComponent::class)
